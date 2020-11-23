@@ -1,0 +1,27 @@
+# IMPORTANT: in GKE, ingress resouce must be created AFTER service is launched
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: lb-ingress
+  namespace: default
+#  annotations:
+#   nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  #Default backend service
+# backend:
+#   serviceName: testapp
+#   servicePort: 80
+  # Backend services
+  rules:
+# - host: localhost
+    - http:
+        paths:
+        - path: /*    #Uncomment for GKE ingress special syntax
+#        - path: /     #Comment when deploying in GKE
+          backend:
+            serviceName: testapp
+            servicePort: 80
+#       - path: /app/
+#         backend:
+#           serviceName: wwwserver
+#           servicePort: 80
